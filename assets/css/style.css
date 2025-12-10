@@ -94,20 +94,19 @@ a{color:var(--accent)}
 /* === OVERRIDE AVATAR → CROWN (pakai file SVG lokal di assets/img/)  === */
 /* ===================================================================== */
 
-/* Hilangkan border avatar; jangan reset background dengan !important */
+/* Jangan gunakan !important di reset global agar tidak memblok rule berikut */
 .podium-card .podium-avatar{
-  border: none;
+  border:none;
 }
 
 /* #1 — Crown Emas */
 .podium-card.first .podium-avatar{
-  /* reset biasa (tanpa !important) lalu set gambar dengan !important */
   background: none;
   background-image: url("../img/crown-gold.svg") !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: 70% 70% !important;
-  border-radius: 12px;
+  border-radius:12px;
 }
 
 /* #2 — Crown Perak */
@@ -117,7 +116,7 @@ a{color:var(--accent)}
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: 70% 70% !important;
-  border-radius: 12px;
+  border-radius:12px;
 }
 
 /* #3 — Crown Perunggu */
@@ -127,24 +126,45 @@ a{color:var(--accent)}
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: 70% 70% !important;
-  border-radius: 12px;
+  border-radius:12px;
 }
 
-/* Responsif: skala crown di mobile */
+/* ========================================================= */
+/* FORCE CROWN DI MOBILE (<= 640px)                          */
+/* Menjamin background-image tidak tertimpa oleh rule lain.  */
+/* ========================================================= */
 @media (max-width:640px){
-  .podium-card.first  .podium-avatar,
-  .podium-card.second .podium-avatar,
-  .podium-card.third  .podium-avatar{
-    background-size: 75% 75% !important;
+  .podium-card.first .podium-avatar{
+    background-image: url("../img/crown-gold.svg") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 75% 75% !important; /* sedikit lebih kecil di mobile */
+    border: none !important;
+    border-radius: 12px !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: block;
   }
-}
-
-
-/* Responsif: skala crown di mobile */
-@media (max-width:640px){
-  .podium-card.first  .podium-avatar,
-  .podium-card.second .podium-avatar,
-  .podium-card.third  .podium-avatar{
-    background-size: 75% 75%;
+  .podium-card.second .podium-avatar{
+    background-image: url("../img/crown-silver.svg") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 75% 75% !important;
+    border: none !important;
+    border-radius: 12px !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: block;
+  }
+  .podium-card.third .podium-avatar{
+    background-image: url("../img/crown-bronze.svg") !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: 75% 75% !important;
+    border: none !important;
+    border-radius: 12px !important;
+    width: 60px !important;
+    height: 60px !important;
+    display: block;
   }
 }
