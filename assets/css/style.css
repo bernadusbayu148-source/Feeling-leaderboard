@@ -1,3 +1,4 @@
+
 :root{--bg:#FFFFFF;--text:#222222;--muted:#666666;--accent:#D21F3C;--accent2:#F75353;--accent3:#C33F3F;--border:#dcdcdc;--card:#f9f9f9;--thead:#f5f5f5;--neutral:#efefef}
 html,body{height:100%}
 body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--text)}
@@ -88,3 +89,89 @@ tbody tr:nth-child(even){background:#fcfcfc}
 .empty{padding:24px;text-align:center;color:#777}
 a{color:var(--accent)}
 :focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+
+/* ===================================================================== */
+/* === OVERRIDE: Ganti kotak merah .podium-avatar dengan ikon crown   === */
+/* === untuk #1 (emas), #2 (perak), #3 (perunggu). Non-breaking.      === */
+/* ===================================================================== */
+
+.podium-card .podium-avatar{
+  background:none !important;
+  border:none !important;
+}
+
+/* Browser modern: gunakan SVG + mask agar warna bisa diatur per peringkat */
+@supports (-webkit-mask-image: url("data:image/svg+xml;utf8,<svg></svg>")) or (mask-image: url("data:image/svg+xml;utf8,<svg></svg>")) {
+  .podium-card .podium-avatar{
+    display:inline-block;
+    position:relative;
+    background-color:transparent;
+  }
+
+  /* Bentuk crown vektor (skala mengikuti ukuran avatar kamu: 84×84 / 60×60) */
+  .podium-card.first  .podium-avatar,
+  .podium-card.second .podium-avatar,
+  .podium-card.third  .podium-avatar{
+    -webkit-mask-image: url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'>\
+        <path d='M14 36l20 18 16-24 20 26 20-18 14 44H24L14 36zm24 70h64a6 6 0 0 0 6-6v-10H32v10a6 6 0 0 0 6 6z'/>\
+      </svg>");
+    mask-image: url("data:image/svg+xml;utf8,\
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'>\
+        <path d='M14 36l20 18 16-24 20 26 20-18 14 44H24L14 36zm24 70h64a6 6 0 0 0 6-6v-10H32v10a6 6 0 0 0 6 6z'/>\
+      </svg>");
+    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+    -webkit-mask-position:center;  mask-position:center;
+    -webkit-mask-size:70% 70%;     mask-size:70% 70%;
+    border-radius:12px;
+    background-color:currentColor; /* warna diambil dari color elemen */
+  }
+
+  /* Warna crown per peringkat */
+  .podium-card.first  .podium-avatar{ color:#f59e0b; } /* emas */
+  .podium-card.second .podium-avatar{ color:#c0c0c0; } /* perak */
+  .podium-card.third  .podium-avatar{ color:#cd7f32; } /* perunggu */
+
+  /* Efek kilau ringan (opsional) */
+  .podium-card.first  .podium-avatar::after,
+  .podium-card.second .podium-avatar::after,
+  .podium-card.third  .podium-avatar::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:12px;
+    background:
+      radial-gradient(120% 120% at 20% 15%, rgba(255,255,255,.85) 0%, rgba(255,255,255,0) 40%),
+      linear-gradient(135deg, rgba(255,255,255,.15), rgba(255,255,255,0));
+    pointer-events:none;
+  }
+}
+
+/* Fallback untuk browser tanpa dukungan mask-image: pakai emoji 👑 besar */
+@supports not ((-webkit-mask-image: none) or (mask-image: none)) {
+  .podium-card.first  .podium-avatar,
+  .podium-card.second .podium-avatar,
+  .podium-card.third  .podium-avatar{
+    display:grid;
+    place-items:center;
+    font-size:42px; /* desktop; mobile disesuaikan di bawah */
+    line-height:1;
+    color:inherit;
+    background:none;
+    border:none;
+  }
+  .podium-card.first  .podium-avatar::before{ content:"👑"; color:#f59e0b; }
+  .podium-card.second .podium-avatar::before{ content:"👑"; color:#c0c0c0; }
+  .podium-card.third  .podium-avatar::before{ content:"👑"; color:#cd7f32; }
+}
+
+/* Responsif: skala crown mengikuti avatar mobile (60×60) */
+@media (max-width:640px){
+  .podium-card.first  .podium-avatar,
+  .podium-card.second .podium-avatar,
+  .podium-card.third  .podium-avatar{
+    -webkit-mask-size:75% 75%;
+    mask-size:75% 75%;
+    font-size:36px; /* fallback emoji size */
+  }
+}
